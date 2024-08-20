@@ -2,6 +2,10 @@ import time
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import urllib.request
+from requests.exceptions import ConnectionError
+import requests
+
+
 
 class X_Picture:
     
@@ -9,9 +13,29 @@ class X_Picture:
     
     def __init__(self , pic_link):
         self.pic_link = pic_link
+    
 
+     
+                
+    
     def get_X_picture(self):
+        # Boolean to check the link is valid or not 
+        bool = True
+        try : 
+            r = requests.get(pic_link , timeout=1)
+            if r.status_code < 400 : 
+                bool = True
+            else : 
+                bool = False
+        except ConnectionError:
+            bool = False
+        
+        # Break the execution if the link is invalid 
+        if not bool : 
+            print(f"Invalid URL : {self.pic_link}")
+            return 
 
+        
         # file savename 
         picture_filename = 'x_picture2.jpg'
 
